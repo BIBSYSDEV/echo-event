@@ -28,8 +28,8 @@ phases:
       - sam package --debug --template-file .aws-sam/build/template.yaml --s3-bucket $S3_BUCKET --output-template packaged.yaml
 
 
-#artifacts:
-#  type: zip
-#  files:
-#    - packaged.yaml
+artifacts:
+  type: zip
+  files:
+    - packaged.yaml
 #    - template-configuration.json

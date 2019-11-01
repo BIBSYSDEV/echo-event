@@ -4,7 +4,7 @@ phases:
   install:
     runtime-versions:
       python: 3.7
-#    commands:
+    commands:
 #
 #      # Upgrade AWS CLI to the latest version
 #      - pip3 install --upgrade awscli

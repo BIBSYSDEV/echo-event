@@ -26,5 +26,5 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /echo-event/{proxy+}
+            Path: /echo-event
             Method: GET

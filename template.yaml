@@ -28,3 +28,6 @@ Resources:
           Properties:
             Path: /echo-event
             Method: GET
+      Tags:
+        ProjectId: !Ref ProjectId
+        Stage: !Ref Stage

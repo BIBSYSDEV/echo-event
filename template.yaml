@@ -26,8 +26,9 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /echo-event
+            Path: /echo-event/{id}
             Method: GET
+
       Tags:
         ProjectId: !Ref ProjectId
         Stage: !Ref Stage

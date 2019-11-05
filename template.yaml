@@ -45,7 +45,7 @@ Resources:
 
 Outputs:
   APIGatewayRef:
-    Description: 'API-Gateway to be used for this lambda'
+    Description: 'API-Gateway to be used for   this lambda'
     Value: !Ref EchoEventApi
     Export:
       Name: !Sub 'api-gateway-${GitHubRepo}-${GitHubBranch}'

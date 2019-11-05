@@ -10,6 +10,9 @@ Parameters:
     Description: IAM role to allow AWS CodeDeploy to manage deployment of AWS Lambda functions
   GitHubBranch:
     Type: String
+  ApiName:
+    Type: String
+
 
 
 Resources:
@@ -17,7 +20,7 @@ Resources:
   EchoEventApi:
     Type: AWS::Serverless::Api
     Properties:
-      Name: !Sub '${GitHubRepo}-${GitHubBranch}'
+      Name: !Sub '${ApiName}'
       StageName: prod
 
 

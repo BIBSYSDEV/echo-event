@@ -3,21 +3,25 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Parameters:
-  ProjectId:
+  GitHubRepo:
     Type: String
-    Description: The projectId used to associate new resources to team members
   CodeDeployRole:
     Type: String
     Description: IAM role to allow AWS CodeDeploy to manage deployment of AWS Lambda functions
-  Stage:
+  GitHubBranch:
     Type: String
-    Description: The name for a project pipeline stage, such as Staging or Prod, for which resources are provisioned and deployed.
-    Default: ''
-  BackendAPIGateway:
-    Type: String
-    Description: Reference to a API-gateway
+
 
 Resources:
+
+  EchoEventApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: !Sub '${GitHubRepo}-${GitHubBranch}'
+      StageName: prod
+
+
+
   EchoEvent:
     Type: AWS::Serverless::Function
     Properties:
@@ -26,12 +30,19 @@ Resources:
       Runtime: python3.7
       Events:
         PostEvent:
-          RestApiId: !Ref BackendAPIGateway
           Type: Api
           Properties:
+            RestApiId: !Ref EchoEventApi
             Path: /echo-event/{id}
             Method: GET
-
       Tags:
-        ProjectId: !Ref ProjectId
-        Stage: !Ref Stage
+        GitHubRepo: !Ref GitHubRepo
+        GitHubBranch: !Ref GitHubBranch
+
+
+Outputs:
+  APIGatewayRef:
+    Description: 'API-Gateway to be used for this lambda'
+    Value: !Ref EchoEventApi
+    Export:
+      Name: !Sub 'api-gateway-${GitHubRepo}-${GitHubBranch}'

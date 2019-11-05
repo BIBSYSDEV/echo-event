@@ -34,4 +34,4 @@ Outputs:
     Description: 'ARN for lambda function'
     Value: !GetAtt EchoEvent.Arn
     Export:
-      Name: !Sub 'lambda-${GitHubRepo}-${GitHubBranch}'
+      Name: !Sub 'lambda-${AWS::StackName}'

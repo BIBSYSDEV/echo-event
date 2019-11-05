@@ -10,20 +10,8 @@ Parameters:
     Description: IAM role to allow AWS CodeDeploy to manage deployment of AWS Lambda functions
   GitHubBranch:
     Type: String
-  ApiName:
-    Type: String
-
-
 
 Resources:
-
-  EchoEventApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: !Sub '${ApiName}'
-      StageName: prod
-
-
 
   EchoEvent:
     Type: AWS::Serverless::Function
@@ -35,17 +23,15 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            RestApiId: !Ref EchoEventApi
             Path: /echo-event/{id}
             Method: GET
       Tags:
         GitHubRepo: !Ref GitHubRepo
         GitHubBranch: !Ref GitHubBranch
 
-
 Outputs:
-  APIGatewayRef:
-    Description: 'API-Gateway to be used for   this lambda'
-    Value: !Ref EchoEventApi
+  LambdaArn:
+    Description: 'ARN for lambda function'
+    Value: !GetAtt EchoEvent.Arn
     Export:
-      Name: !Sub 'api-gateway-${GitHubRepo}-${GitHubBranch}'
+      Name: !Sub 'lambda-${GitHubRepo}-${GitHubBranch}'

@@ -2,6 +2,19 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform:
   - AWS::Serverless-2016-10-31
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: echo-event
+    Description: Echos incoming events
+    Author: Unit
+    SpdxLicenseId: MIT
+    LicenseUrl: LICENSE
+    ReadmeUrl: README.md
+    HomePageUrl: https://github.com/BIBSYSDEV/echo-event
+    SemanticVersion: 0.0.1
+    SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
+
+
 Parameters:
 
   GitHubRepo:

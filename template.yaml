@@ -7,8 +7,6 @@ Metadata:
     Name: echo-event
     Description: Echos incoming events
     Author: Unit
-    SpdxLicenseId: MIT
-    LicenseUrl: LICENSE
     ReadmeUrl: README.md
     HomePageUrl: https://github.com/BIBSYSDEV/echo-event
     SemanticVersion: 0.0.1

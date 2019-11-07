@@ -9,9 +9,12 @@ Metadata:
     Author: Unit
     ReadmeUrl: README.md
     HomePageUrl: https://github.com/BIBSYSDEV/echo-event
-    SemanticVersion: 0.0.3
+    SemanticVersion: 0.0.4
     SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
 
+Parameters:
+  ApiName:
+    Type: String
 
 Resources:
 
@@ -24,6 +27,7 @@ Resources:
       Events:
         PostEvent:
           Type: Api
+          RestApiId: !Ref ApiName
           Properties:
             Path: /echo
             Method: GET
@@ -37,6 +41,7 @@ Resources:
       Events:
         PostEvent:
           Type: Api
+          RestApiId: !Ref ApiName
           Properties:
             Path: /echo/{identifier}
             Method: PUT
@@ -50,6 +55,7 @@ Resources:
       Runtime: python3.7
       Events:
         PostEvent:
+          RestApiId: !Ref ApiName
           Type: Api
           Properties:
             Path: /another

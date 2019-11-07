@@ -13,8 +13,6 @@ Metadata:
     SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
 
 
-Parameters:
-
 Resources:
 
   EchoEvent:

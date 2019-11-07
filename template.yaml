@@ -38,7 +38,7 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /echo
+            Path: /echo/{identifier}
             Method: PUT
 
 

@@ -29,7 +29,7 @@ phases:
 
   post_build:
     commands:
-      - sam publish --template packaged.yaml
+      - sam publish --template-file packaged.yaml
 
 artifacts:
   type: zip

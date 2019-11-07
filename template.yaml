@@ -9,16 +9,11 @@ Metadata:
     Author: Unit
     ReadmeUrl: README.md
     HomePageUrl: https://github.com/BIBSYSDEV/echo-event
-    SemanticVersion: 0.0.1
+    SemanticVersion: 0.0.2
     SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
 
 
 Parameters:
-
-  GitHubRepo:
-    Type: String
-  GitHubBranch:
-    Type: String
 
 Resources:
 
@@ -28,13 +23,16 @@ Resources:
       CodeUri: ./src
       Handler: app.handler
       Runtime: python3.7
-      Tags:
-        GitHubRepo: !Ref GitHubRepo
-        GitHubBranch: !Ref GitHubBranch
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: GET
 
-Outputs:
-  LambdaArn:
-    Description: 'ARN for lambda function'
-    Value: !GetAtt EchoEvent.Arn
-    Export:
-      Name: !Sub '${AWS::StackName}-lambdaArn'
+#Outputs:
+#  LambdaArn:
+#    Description: 'ARN for lambda function'
+#    Value: !GetAtt EchoEvent.Arn
+#    Export:
+#      Name: !Sub '${AWS::StackName}-lambdaArn'

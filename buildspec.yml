@@ -23,8 +23,10 @@ phases:
 
   build:
     commands:
+      # Get the (short) commit hash from git
+      - export GIT_COMMIT_HASH=$(git rev-parse --short HEAD)
       # Use AWS SAM to build and package the application by using AWS CloudFormation
-      - sam build --debug
+      - sam build --debug --parameter-overrides='ParameterKey=Version, ParameterValue=$GIT_COMMIT_HASH'
       - sam package --debug --template-file .aws-sam/build/template.yaml --s3-bucket $S3_BUCKET --output-template-file packaged.yaml
   post_build:
     commands:

@@ -30,7 +30,7 @@ phases:
     commands:
       # Get the (short) commit hash from git
       - GIT_COMMIT_HASH=$(git rev-parse --short HEAD)
-      - sam publish --template packaged.yaml --semantic-version=$GIT_COMMIT_HASH
+      - sam publish --template packaged.yaml --semantic-version=$CODEBUILD_RESOLVED_SOURCE_VERSION
 
 #artifacts:
 #  type: zip

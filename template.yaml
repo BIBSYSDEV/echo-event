@@ -2,9 +2,6 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform:
   - AWS::Serverless-2016-10-31
 
-Parameters:
-  Version:
-    Type: String
 
 Metadata:
   AWS::ServerlessRepo::Application:
@@ -13,7 +10,7 @@ Metadata:
     Author: Unit
     ReadmeUrl: README.md
     HomePageUrl: https://github.com/BIBSYSDEV/echo-event
-    SemanticVersion: !Ref Version
+    SemanticVersion: 0.1.0
     SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
 
 Resources:

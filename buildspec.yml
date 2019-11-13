@@ -30,7 +30,7 @@ phases:
     commands:
       # Get the (short) commit hash from git
 
-      - sam publish --template packaged.yaml --semantic-version=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - sam publish --template packaged.yaml
 
 #artifacts:
 #  type: zip

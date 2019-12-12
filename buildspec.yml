@@ -32,7 +32,7 @@ phases:
 
       - sam publish --template packaged.yaml
 
-#artifacts:
+artifacts:
 #  type: zip
-#  files:
-#    - packaged.yaml
+  files:
+    - packaged.yaml

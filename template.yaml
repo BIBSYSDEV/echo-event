@@ -10,15 +10,19 @@ Metadata:
     Author: Unit
     ReadmeUrl: README.md
     HomePageUrl: https://github.com/BIBSYSDEV/echo-event
-    SemanticVersion: 0.1.1
+    SemanticVersion: 0.1.2
     SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
 
 Resources:
 
 
 
+  EchoEventApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
 
-  EchoGetEvent:
+  EchoEvent:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
@@ -30,46 +34,11 @@ Resources:
           Properties:
             Path: /{identifier}
             Method: GET
+            RestApiId: !Ref EchoEventApi
 
-  EchoGet2Event:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./src
-      Handler: app.handler
-      Runtime: python3.7
-      Events:
-        PostEvent:
-          Type: Api
-          Properties:
-            Path: /other
-            Method: GET
-
-
-  EchoPutEvent:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./src
-      Handler: app.handler
-      Runtime: python3.7
-      Events:
-        PostEvent:
-          Type: Api
-          Properties:
-            Path: /{identifier}
-            Method: PUT
-
-
-  EchoPostEvent:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./src
-      Handler: app.handler
-      Runtime: python3.7
-      Events:
-        PostEvent:
-          Type: Api
-          Properties:
-            Path: /
-            Method: POST
-
+Outputs:
+  FetchResourceApiName:
+    Value: !Ref EchoEventApi
+    Export:
+      Name: !Sub "${AWS::StackName}-Api"
 

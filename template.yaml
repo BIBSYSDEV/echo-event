@@ -10,12 +10,10 @@ Metadata:
     Author: Unit
     ReadmeUrl: README.md
     HomePageUrl: https://github.com/BIBSYSDEV/echo-event
-    SemanticVersion: 0.1.2
+    SemanticVersion: 0.2.0
     SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
 
 Resources:
-
-
 
   EchoEventApi:
     Type: AWS::Serverless::Api

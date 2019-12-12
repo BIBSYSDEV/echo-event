@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform:
+  - AWS::Serverless-2016-10-31
+
+
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: echo-event
+    Description: Echos incoming events
+    Author: Unit
+    ReadmeUrl: README.md
+    HomePageUrl: https://github.com/BIBSYSDEV/echo-event
+    SemanticVersion: 0.2.0
+    SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
+
+Resources:
+
+  EchoEventApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+
+  EchoEvent:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src
+      Handler: app.handler
+      Runtime: python3.7
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /{identifier}
+            Method: GET
+            RestApiId: !Ref EchoEventApi
+
+Outputs:
+  EchoEventApiName:
+    Value: !Ref EchoEventApi
+    Export:
+      Name: !Sub "${AWS::StackName}-Api"
+

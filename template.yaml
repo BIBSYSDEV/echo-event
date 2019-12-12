@@ -37,7 +37,7 @@ Resources:
             RestApiId: !Ref EchoEventApi
 
 Outputs:
-  FetchResourceApiName:
+  EchoEventApiName:
     Value: !Ref EchoEventApi
     Export:
       Name: !Sub "${AWS::StackName}-Api"

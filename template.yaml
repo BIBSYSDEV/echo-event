@@ -10,6 +10,7 @@ Resources:
 
   EchoEventApi:
     Type: AWS::Serverless::Api
+    DependsOn: EchoEvent
     Properties:
       StageName: Prod
 

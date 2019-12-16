@@ -30,9 +30,8 @@ Resources:
 
   EchoEventBasePathMapping:
     Type: AWS::ApiGateway::BasePathMapping
-    DependsOn: EchoEventApi
     Properties:
       BasePath: echo-event
       DomainName: !Ref ApiDomain
       RestApiId: !Ref EchoEventApi
-      Stage: Prod
+      Stage: !Ref EchoEventApi.Stage

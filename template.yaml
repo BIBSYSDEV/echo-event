@@ -32,5 +32,5 @@ Resources:
     Properties:
       BasePath: echo-event
       DomainName: !Ref ApiDomain
-      RestApiId: !Ref EchoEvent
+      RestApiId: !Ref EchoEventApi
       Stage: Prod

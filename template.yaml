@@ -2,16 +2,9 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform:
   - AWS::Serverless-2016-10-31
 
-
-Metadata:
-  AWS::ServerlessRepo::Application:
-    Name: echo-event
-    Description: Echos incoming events
-    Author: Unit
-    ReadmeUrl: README.md
-    HomePageUrl: https://github.com/BIBSYSDEV/echo-event
-    SemanticVersion: 0.2.0
-    SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
+Parameters:
+  ApiDomain:
+    Type: String
 
 Resources:
 
@@ -34,9 +27,10 @@ Resources:
             Method: GET
             RestApiId: !Ref EchoEventApi
 
-Outputs:
-  EchoEventApiName:
-    Value: !Ref EchoEventApi
-    Export:
-      Name: !Sub "${AWS::StackName}-Api"
-
+  EchoEventBasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: echo-event
+      DomainName: !Ref ApiDomain
+      RestApiId: !Ref EchoEvent
+      Stage: Prod

@@ -5,6 +5,10 @@ Transform:
 Parameters:
   CustomDomain:
     Type: String
+    Description: Custom API to connect this lambda to
+  CustomDomainBasePath:
+    Type: String
+    Description: Base path mapping in CustomDomain
 
 Resources:
 
@@ -31,7 +35,7 @@ Resources:
   EchoEventBasePathMapping:
     Type: AWS::ApiGateway::BasePathMapping
     Properties:
-      BasePath: echo-event
+      BasePath: !Ref CustomDomainBasePath
       DomainName: !Ref CustomDomain
       RestApiId: !Ref EchoEventApi
       Stage: !Ref EchoEventApi.Stage

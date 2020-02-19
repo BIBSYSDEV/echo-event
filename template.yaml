@@ -14,11 +14,11 @@ Resources:
 
   EchoEventApi:
     Type: AWS::Serverless::Api
-    DependsOn: EchoEvent
     Properties:
       StageName: Prod
+      Cors: "'*'"
 
-  EchoEvent:
+  EchoPutEventFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
@@ -31,6 +31,34 @@ Resources:
             Path: /
             Method: PUT
             RestApiId: !Ref EchoEventApi
+  EchoPostEventFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src
+      Handler: app.handler
+      Runtime: python3.7
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: POST
+            RestApiId: !Ref EchoEventApi
+  EchoGetEventFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src
+      Handler: app.handler
+      Runtime: python3.7
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+            RestApiId: !Ref EchoEventApi
+
+
 
   EchoEventBasePathMapping:
     Type: AWS::ApiGateway::BasePathMapping

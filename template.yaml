@@ -28,8 +28,8 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /{identifier}
-            Method: GET
+            Path: /
+            Method: PUT
             RestApiId: !Ref EchoEventApi
 
   EchoEventBasePathMapping:

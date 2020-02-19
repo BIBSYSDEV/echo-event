@@ -13,6 +13,7 @@ Parameters:
 Metadata:
   AWS::ServerlessRepo::Application:
     Name: echo-event
+    Author: UNIT
     Description: Sample project for deploy to SAR
     SemanticVersion: 1.0.1
 

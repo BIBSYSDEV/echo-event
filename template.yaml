@@ -2,16 +2,13 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform:
   - AWS::Serverless-2016-10-31
 
-
-Metadata:
-  AWS::ServerlessRepo::Application:
-    Name: echo-event
-    Description: Echos incoming events
-    Author: Unit
-    ReadmeUrl: README.md
-    HomePageUrl: https://github.com/BIBSYSDEV/echo-event
-    SemanticVersion: 0.2.0
-    SourceCodeUrl: https://github.com/BIBSYSDEV/echo-event
+Parameters:
+  CustomDomain:
+    Type: String
+    Description: Custom API to connect this lambda to
+  CustomDomainBasePath:
+    Type: String
+    Description: Base path mapping in CustomDomain
 
 Resources:
 
@@ -19,8 +16,9 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
+      Cors: "'*'"
 
-  EchoEvent:
+  EchoPutEventFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
@@ -30,13 +28,45 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /{identifier}
+            Path: /
+            Method: PUT
+            RestApiId: !Ref EchoEventApi
+  EchoPostEventFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src
+      Handler: app.handler
+      Runtime: python3.7
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: POST
+            RestApiId: !Ref EchoEventApi
+  EchoGetEventFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src
+      Handler: app.handler
+      Runtime: python3.7
+      Events:
+        PostEvent:
+          Type: Api
+          Properties:
+            Path: /
             Method: GET
             RestApiId: !Ref EchoEventApi
 
-Outputs:
-  EchoEventApiName:
-    Value: !Ref EchoEventApi
-    Export:
-      Name: !Sub "${AWS::StackName}-Api"
+
+
+  EchoEventBasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: !Ref CustomDomainBasePath
+      DomainName: !Ref CustomDomain
+      RestApiId: !Ref EchoEventApi
+      Stage: !Ref EchoEventApi.Stage
+
+
 

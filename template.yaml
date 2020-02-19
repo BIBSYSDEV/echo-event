@@ -10,6 +10,13 @@ Parameters:
     Type: String
     Description: Base path mapping in CustomDomain
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: echo-event
+    Description: Sample project for deploy to SAR
+    SemanticVersion: 1.0.1
+
+
 Resources:
 
   EchoEventApi:

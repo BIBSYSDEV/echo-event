@@ -8,7 +8,7 @@ Metadata:
     Name: echo-event
     Description: Sample project for deploy to SAR
     Author: Unit
-    SemanticVersion: 1.0.1
+    SemanticVersion: 1.0.2
     SpdxLicenseId: MIT
     LicenseUrl: LICENSE
 

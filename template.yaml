@@ -2,20 +2,15 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform:
   - AWS::Serverless-2016-10-31
 
-Parameters:
-  CustomDomain:
-    Type: String
-    Description: Custom API to connect this lambda to
-  CustomDomainBasePath:
-    Type: String
-    Description: Base path mapping in CustomDomain
 
 Metadata:
   AWS::ServerlessRepo::Application:
     Name: echo-event
-    Author: UNIT
     Description: Sample project for deploy to SAR
+    Author: Unit
     SemanticVersion: 1.0.1
+    SpdxLicenseId: MIT
+    LicenseUrl: LICENSE
 
 
 Resources:
@@ -67,14 +62,6 @@ Resources:
             RestApiId: !Ref EchoEventApi
 
 
-
-  EchoEventBasePathMapping:
-    Type: AWS::ApiGateway::BasePathMapping
-    Properties:
-      BasePath: !Ref CustomDomainBasePath
-      DomainName: !Ref CustomDomain
-      RestApiId: !Ref EchoEventApi
-      Stage: !Ref EchoEventApi.Stage
 
 
 

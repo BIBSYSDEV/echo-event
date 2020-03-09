@@ -8,7 +8,7 @@ Metadata:
     Name: echo-event
     Description: Sample project for deploy to SAR
     Author: Unit
-    SemanticVersion: 1.0.2
+    SemanticVersion: 1.0.3
     SpdxLicenseId: MIT
     LicenseUrl: LICENSE
 
@@ -26,7 +26,7 @@ Resources:
     Properties:
       CodeUri: ./src
       Handler: app.handler
-      Runtime: python3.7
+      Runtime: python3.8
       Events:
         PostEvent:
           Type: Api
@@ -39,7 +39,7 @@ Resources:
     Properties:
       CodeUri: ./src
       Handler: app.handler
-      Runtime: python3.7
+      Runtime: python3.8
       Events:
         PostEvent:
           Type: Api
@@ -52,7 +52,7 @@ Resources:
     Properties:
       CodeUri: ./src
       Handler: app.handler
-      Runtime: python3.7
+      Runtime: python3.8
       Events:
         PostEvent:
           Type: Api

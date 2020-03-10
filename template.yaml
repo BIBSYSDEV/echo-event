@@ -2,16 +2,14 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform:
   - AWS::Serverless-2016-10-31
 
-
 Metadata:
   AWS::ServerlessRepo::Application:
-    Name: echo-event
+    Name: EchoEvent
     Description: Sample project for deploy to SAR
     Author: Unit
-    SemanticVersion: 1.0.3
+    SemanticVersion: 1.0.4
     SpdxLicenseId: MIT
     LicenseUrl: LICENSE
-
 
 Resources:
 

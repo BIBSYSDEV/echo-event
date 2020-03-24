@@ -16,6 +16,7 @@ Parameters:
   MetadataLabels:
     Type: String
     Description: Labels to identify application
+    Default: "testversjon"
 
 Resources:
 

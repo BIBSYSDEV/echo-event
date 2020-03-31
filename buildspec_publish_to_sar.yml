@@ -20,8 +20,8 @@ phases:
       - echo CODEBUILD_RESOLVED_SOURCE_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION
 #      - env | sort
       - echo
-      - curl https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags
-      - curl -s https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[]  | select(.commit.sha == "$CODEBUILD_RESOLVED_SOURCE_VERSION" ) | .name'
+#      - curl -s https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags
+      - APPLICATION_VERSION=$(curl -s https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[]  | select(.commit.sha == "$CODEBUILD_RESOLVED_SOURCE_VERSION" ) | .name')
       - echo APPLICATION_VERSION=$APPLICATION_VERSION
       - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged.yaml
 artifacts:

@@ -15,14 +15,13 @@ phases:
   post_build:
     commands:
       # publishing to SAR
-      - APPLICATION_VERSION="9.8.7"
-      - echo GIT_REPO=$GIT_REPO
-      - echo CODEBUILD_RESOLVED_SOURCE_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION
+#      - echo GIT_REPO=$GIT_REPO
+#      - echo CODEBUILD_RESOLVED_SOURCE_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION
 #      - env | sort
-      - echo
 #      - curl -s https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags
-      - export APPLICATION_VERSION=$(curl -s https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[]  | select(.commit.sha == "$CODEBUILD_RESOLVED_SOURCE_VERSION" ) | .name')
-      - echo APPLICATION_VERSION=$APPLICATION_VERSION
+#      - export APPLICATION_VERSION=$(curl -s https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[]  | select(.commit.sha == "$CODEBUILD_RESOLVED_SOURCE_VERSION" ) | .name' | head -1)
+      - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[].name' | sort -r | head -1)
+      - echo GIT_REPO=$GIT_REPO APPLICATION_VERSION=$APPLICATION_VERSION
       - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged.yaml
 artifacts:
   files:

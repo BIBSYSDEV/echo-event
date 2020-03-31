@@ -16,8 +16,10 @@ phases:
     commands:
       # publishing to SAR
 #      - sam publish --template sampackaged.yaml
+      - echo GIT_REPO=$GIT_REPO
+      - echo CODEBUILD_RESOLVED_SOURCE_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION
       - env | sort
-      - curl https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[]  | select(.commit.sha == $CODEBUILD_RESOLVED_SOURCE_VERSION ) | .name'
+#      - curl https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[]  | select(.commit.sha == $CODEBUILD_RESOLVED_SOURCE_VERSION ) | .name'
       - echo APPLICATION_VERSION=$APPLICATION_VERSION
       - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged.yaml
 artifacts:

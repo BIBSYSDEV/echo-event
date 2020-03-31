@@ -19,7 +19,8 @@ phases:
       - echo GIT_REPO=$GIT_REPO
       - echo CODEBUILD_RESOLVED_SOURCE_VERSION=$CODEBUILD_RESOLVED_SOURCE_VERSION
 #      - env | sort
-      - echo curl https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags
+      - echo
+      - curl https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags
 #      - curl https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq '.[]  | select(.commit.sha == $CODEBUILD_RESOLVED_SOURCE_VERSION ) | .name'
       - echo APPLICATION_VERSION=$APPLICATION_VERSION
       - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged.yaml

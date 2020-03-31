@@ -8,7 +8,7 @@ phases:
       - pip3 install aws-sam-cli
 env:
   variables:
-    VERSION: $APPLICATION_VERSION
+    VERSION: $CODEBUILD_RESOLVED_SOURCE_VERSION
     REPO: $GIT_REPO
 
   build:

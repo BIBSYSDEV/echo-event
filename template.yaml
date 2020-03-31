@@ -7,16 +7,9 @@ Metadata:
     Name: EchoEvent
     Description: Sample project for deploy to SAR
     Author: Unit
-    SemanticVersion: 1.0.7
     SpdxLicenseId: MIT
     LicenseUrl: LICENSE
-    Labels: !Ref MetadataLabels
-
-Parameters:
-  MetadataLabels:
-    Type: String
-    Description: Labels to identify application
-    Default: "testversjon"
+    Labels: ['${GIT_COMMIT_SHA}', '${GIT_REPOSITORY}']
 
 Resources:
 

@@ -10,15 +10,20 @@ phases:
   build:
     commands:
       # Use AWS SAM to build and package the application by using AWS CloudFormation
-      - sam build --debug
-      - sam package --debug --template-file .aws-sam/build/template.yaml --s3-bucket $S3_BUCKET --output-template-file sampackaged.yaml --force-upload
+      - sam build
+      - sam package --template-file .aws-sam/build/template.yaml --s3-bucket $S3_BUCKET --output-template-file sampackaged_raw.yaml
   post_build:
     commands:
-      # publishing to SAR
-      - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq -r '.[].name' | sort -r | head -1)
+      # Getting version tag from git (first from sorted list of tags)
+      # - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq -r '.[].name' | sort -r | head -1)
+
+      # Getting version tag from git (latest tag)
+      - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/releases/latest | jq -r '.tag_name')
       - echo GIT_REPO=$GIT_REPO APPLICATION_VERSION=$APPLICATION_VERSION
-      - envsubst < sampackaged.yaml > sampackaged_subst.yaml
-      - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged_subst.yaml
+      # Updating meatadata.labels in template
+      - envsubst < sampackaged_raw.yaml > sampackaged_annotated.yaml
+      # publishing to SAR
+      - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged_annotated.yaml
 artifacts:
   files:
     - sampackaged.yaml

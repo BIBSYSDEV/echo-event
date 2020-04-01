@@ -6,6 +6,7 @@ phases:
       python: 3.8
     commands:
       - pip3 install aws-sam-cli
+      - apt install jq
 
   build:
     commands:
@@ -14,13 +15,9 @@ phases:
       - sam package --template-file .aws-sam/build/template.yaml --s3-bucket $S3_BUCKET --output-template-file sampackaged_raw.yaml
   post_build:
     commands:
-      # Getting version tag from git (first from sorted list of tags)
-      # - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/tags | jq -r '.[].name' | sort -r | head -1)
-
-      # Getting version tag from git (latest tag)
+      # Getting latest version tag from git
       - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/releases/latest | jq -r '.tag_name')
-      - echo GIT_REPO=$GIT_REPO APPLICATION_VERSION=$APPLICATION_VERSION
-      # Updating meatadata.labels in template
+      # Updating metadata.labels in template
       - envsubst < sampackaged_raw.yaml > sampackaged.yaml
       # publishing to SAR
       - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged.yaml

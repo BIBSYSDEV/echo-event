@@ -21,9 +21,9 @@ phases:
       - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/releases/latest | jq -r '.tag_name')
       - echo GIT_REPO=$GIT_REPO APPLICATION_VERSION=$APPLICATION_VERSION
       # Updating meatadata.labels in template
-      - envsubst < sampackaged_raw.yaml > sampackaged_annotated.yaml
+      - envsubst < sampackaged_raw.yaml > sampackaged.yaml
       # publishing to SAR
-      - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged_annotated.yaml
+      - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged.yaml
 artifacts:
   files:
     - sampackaged.yaml

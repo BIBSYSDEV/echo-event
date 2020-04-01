@@ -6,7 +6,7 @@ phases:
       python: 3.8
     commands:
       - pip3 install aws-sam-cli
-      - apt install jq
+      - apt install -q -y jq
 
   build:
     commands:

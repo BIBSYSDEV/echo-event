@@ -6,20 +6,23 @@ phases:
       python: 3.8
     commands:
       - pip3 install aws-sam-cli
+      - apt install -q -y jq
 
   build:
     commands:
       # Use AWS SAM to build and package the application by using AWS CloudFormation
-      - sam build --debug
-      - sam package --debug --template-file .aws-sam/build/template.yaml --s3-bucket $S3_BUCKET --output-template-file sampackaged.yaml --force-upload
+      - sam build
+      - sam package --template-file .aws-sam/build/template.yaml --s3-bucket $S3_BUCKET --output-template-file sampackaged_raw.yaml
   post_build:
     commands:
+      # Setting a timestamp for the build in labels
+      - BUILD_TIMESTAMP=$(date -Iseconds)
+      - # Getting latest version tag from git
+      - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/releases/latest | jq -r '.tag_name')
+      # Updating metadata.labels in template
+      - envsubst '${CODEBUILD_RESOLVED_SOURCE_VERSION},${GIT_REPO},${BUILD_TIMESTAMP}' < sampackaged_raw.yaml > sampackaged.yaml
       # publishing to SAR
-#      - sam publish --template sampackaged.yaml
-      - env | sort
-      - curl https://api.github.com/repos/BIBSYSDEV/${GIT_REPO}/tags | jq '.[]  | select(.commit.sha == ${CODEBUILD_RESOLVED_SOURCE_VERSION} ) | .name'
-      - echo APPLICATION_VERSION=${APPLICATION_VERSION}
-      - sam publish  --semantic-version ${APPLICATION_VERSION}  --template sampackaged.yaml
+      - sam publish  --semantic-version $APPLICATION_VERSION  --template sampackaged.yaml
 artifacts:
   files:
     - sampackaged.yaml

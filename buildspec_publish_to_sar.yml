@@ -17,6 +17,7 @@ phases:
     commands:
       # Setting a timestamp for the build in labels
       - BUILD_TIMESTAMP=$(date -Iseconds)
+      - echo timestamp=${BUILD_TIMESTAMP}
       - # Getting latest version tag from git
       - APPLICATION_VERSION=$(curl -s  https://api.github.com/repos/BIBSYSDEV/$GIT_REPO/releases/latest | jq -r '.tag_name')
       # Updating metadata.labels in template

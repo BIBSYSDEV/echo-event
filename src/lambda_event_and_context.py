@@ -27,7 +27,10 @@ class PythonObjectEncoder(json.JSONEncoder):
 
 
 def lambda_handler(event, context):
-    logger.info('Event: %s' % json.dumps(event))
-    logger.info('Context: %s' %
-                json.dumps(vars(context), cls=PythonObjectEncoder))
-    return True
+    print('Event: ', json.dumps(event))
+    print('Context: ', json.dumps(vars(context), cls=PythonObjectEncoder))
+
+    return {
+        "statusCode": 200,
+        "body": json.dumps(event)
+    }

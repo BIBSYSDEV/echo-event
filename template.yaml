@@ -3,22 +3,54 @@ Transform:
   - AWS::Serverless-2016-10-31
 
 Metadata:
+
   AWS::ServerlessRepo::Application:
     Name: EchoEvent
     Description: Sample project for deploy to SAR
     Author: Unit
     SpdxLicenseId: MIT
     LicenseUrl: LICENSE
-    Labels: ['${GIT_REPO}', '${CODEBUILD_RESOLVED_SOURCE_VERSION}', '@${BUILD_TIMESTAMP}']
+    Labels: ['${CODEBUILD_RESOLVED_SOURCE_VERSION}', '${GIT_REPO}', '@${BUILD_TIMESTAMP}']
+
+Parameters:
+  CognitoAuthorizerArn:
+    Type: String
+    Description: Reference to Cognito UserPool for the stage
+    Default: arn:aws:cognito-idp:eu-west-1:750639270376:userpool/eu-west-1_Fto5AuFGa
+  CustomDomain:
+    Type: String
+    Description: Custom API to connect this lambda to
+    Default: api.dev.nva.aws.unit.no
+  CustomDomainBasePath:
+    Type: String
+    Description: Base path mapping in CustomDomain
+    Default: echo
+
+
+
 Resources:
+
+  ApiAccessLogGroup:
+    Type: AWS::Logs::LogGroup
+
 
   EchoEventApi:
     Type: AWS::Serverless::Api
     Properties:
+      AccessLogSetting:
+        DestinationArn: !GetAtt ApiAccessLogGroup.Arn
+        Format: '{ "apiId": "$context.apiId", "requestId": "$context.requestId", "requestTime": "$context.requestTime", "requestTimeEpoch": "$context.requestTimeEpoch", "httpMethod": "$context.httpMethod", "path": "$context.path", "input.body": "$input.body", "input.params": "$input.params", "status": "$context.status",  "error.message": "$context.error.message" }'
       StageName: Prod
       Cors: "'*'"
+      Auth:
+        ApiKeyRequired: false
+        DefaultAuthorizer: MyCognAuthorizer
+        Authorizers:
+          MyCognAuthorizer:
+            UserPoolArn: !Ref CognitoAuthorizerArn
 
-  EchoPutEventFunction:
+
+  EchoPostEventFunction1:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
@@ -28,37 +60,32 @@ Resources:
         PostEvent:
           Type: Api
           Properties:
-            Path: /
-            Method: PUT
-            RestApiId: !Ref EchoEventApi
-  EchoPostEventFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./src
-      Handler: app.handler
-      Runtime: python3.8
-      Events:
-        PostEvent:
-          Type: Api
-          Properties:
-            Path: /
+            Path: /app
             Method: POST
             RestApiId: !Ref EchoEventApi
-  EchoGetEventFunction:
+      Policies:
+        - AmazonAPIGatewayPushToCloudWatchLogs
+
+  EchoPostEventFunction2:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
-      Handler: app.handler
+      Handler: lambda_event_and_context.lambda_handler
       Runtime: python3.8
       Events:
         PostEvent:
           Type: Api
           Properties:
-            Path: /
-            Method: GET
+            Path: /lambda_event_and_context
+            Method: POST
             RestApiId: !Ref EchoEventApi
 
-
-
+  EchoEventBasePathMapping:
+    Type: AWS::ApiGateway::BasePathMapping
+    Properties:
+      BasePath: !Ref CustomDomainBasePath
+      DomainName: !Ref CustomDomain
+      RestApiId: !Ref EchoEventApi
+      Stage: !Ref EchoEventApi.Stage
 
 

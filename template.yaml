@@ -50,21 +50,8 @@ Resources:
             UserPoolArn: !Ref CognitoAuthorizerArn
 
 
-  EchoPostEventFunction1:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: ./src
-      Handler: app.handler
-      Runtime: python3.8
-      Events:
-        PostEvent:
-          Type: Api
-          Properties:
-            Path: /app
-            Method: POST
-            RestApiId: !Ref EchoEventApi
 
-  EchoPostEventFunction2:
+  PreTokenTrigger:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src

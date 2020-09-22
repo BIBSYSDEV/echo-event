@@ -63,8 +63,6 @@ Resources:
             Path: /app
             Method: POST
             RestApiId: !Ref EchoEventApi
-      Policies:
-        - AmazonAPIGatewayPushToCloudWatchLogs
 
   EchoPostEventFunction2:
     Type: AWS::Serverless::Function
